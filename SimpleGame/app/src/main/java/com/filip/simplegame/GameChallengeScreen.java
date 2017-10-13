@@ -42,7 +42,7 @@ public class GameChallengeScreen extends  Screen
         background = g.newPixmap("background.png", Graphics.PixmapFormat.RGB565);
 
         //Images
-        escapeButton = g.newPixmap("Button.png", Graphics.PixmapFormat.ARGB4444);
+        escapeButton = g.newPixmap("Escape.png", Graphics.PixmapFormat.ARGB4444);
         enemycatImg = g.newPixmap("enemycat.png", Graphics.PixmapFormat.ARGB4444);
         catImg = g.newPixmap("cat.png", Graphics.PixmapFormat.ARGB4444);
         healthImg = g.newPixmap("heart.png", Graphics.PixmapFormat.ARGB4444);

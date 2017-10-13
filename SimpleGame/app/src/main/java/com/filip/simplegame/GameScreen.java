@@ -18,7 +18,6 @@ public class GameScreen extends Screen {
     private static final float UPDATE_BLOB_TIME = 1.0f;
 
     private static Pixmap background;
-    private static Pixmap blob;
     private static Pixmap numbers;
     //Buttons
     private static Pixmap mapButton;
@@ -39,22 +38,20 @@ public class GameScreen extends Screen {
 
     private float timePassed;
 
-    private Random random = new Random();
 
     public GameScreen(Game game){
         super(game);
         Graphics g = game.getGraphics();
         background = g.newPixmap("background.png", Graphics.PixmapFormat.RGB565);
-        blob = g.newPixmap("blob.png", Graphics.PixmapFormat.ARGB4444);
         numbers = g.newPixmap("numbers.png", Graphics.PixmapFormat.ARGB4444);
 
         //Buttons
-        mapButton = g.newPixmap("Button.png",Graphics.PixmapFormat.ARGB4444);
-        challButton = g.newPixmap("Button.png",Graphics.PixmapFormat.ARGB4444);
-        shopButton = g.newPixmap("Button.png",Graphics.PixmapFormat.ARGB4444);
-        menuButton = g.newPixmap("Ads.png",Graphics.PixmapFormat.ARGB4444);
-        partyButton = g.newPixmap("PlayButton.png",Graphics.PixmapFormat.ARGB4444);
-        itemsButton = g.newPixmap("Button.png",Graphics.PixmapFormat.ARGB4444);
+        mapButton = g.newPixmap("Map.png",Graphics.PixmapFormat.ARGB4444);
+        challButton = g.newPixmap("Challenges.png",Graphics.PixmapFormat.ARGB4444);
+        shopButton = g.newPixmap("Shop.png",Graphics.PixmapFormat.ARGB4444);
+        menuButton = g.newPixmap("Menu.png",Graphics.PixmapFormat.ARGB4444);
+        partyButton = g.newPixmap("Party.png",Graphics.PixmapFormat.ARGB4444);
+        itemsButton = g.newPixmap("Items.png",Graphics.PixmapFormat.ARGB4444);
 
         centerXPos = g.getWidth() /2;
         centerYPos = g.getHeight() /2;
@@ -68,26 +65,19 @@ public class GameScreen extends Screen {
         for(int i = 0; i < len; i++) {
             TouchEvent event = touchEvents.get(i);
             if (event.type == TouchEvent.TOUCH_DOWN) {
-                if(inBounds(event,0,0,mapButton.getWidth(),mapButton.getHeight()))
+                if(inBounds(event,0-mapButton.getWidth()/2 ,0-mapButton.getHeight()/2,mapButton.getWidth(),mapButton.getHeight()))
                 {
                     game.setScreen(new GameMapScreen(game));
                     return;
                 }
-                if (inBounds(event, blobXPos, blobYPos, blob.getWidth(), blob.getHeight())) {
-                    oldScore++;
-                    score = "" + oldScore;
-                } else {
-                    game.setScreen(new MainMenuScreen(game));
-                    return;
+                if(inBounds(event,0+centerXPos+50-menuButton.getWidth()/2,centerYPos+500-menuButton.getWidth(),menuButton.getWidth(),menuButton.getHeight()))
+                {
+                    game.setScreen(new GameScreen(game));
                 }
+                if(inBounds(event,centerXPos+250-mapButton.getWidth()/2,centerYPos))
             }
         }
-        timePassed += deltaTime;
-        if(timePassed > UPDATE_BLOB_TIME){
-            blobXPos = random.nextInt(game.getGraphics().getWidth()-blob.getWidth());
-            blobYPos = random.nextInt(game.getGraphics().getHeight()-blob.getHeight());
-            timePassed = 0;
-        }
+
     }
 
     @Override
@@ -103,7 +93,6 @@ public class GameScreen extends Screen {
     public void present(float deltaTime){
         Graphics g = game.getGraphics();
         g.drawPixmap(background, 0, 0);
-        g.drawPixmap(blob, blobXPos, blobYPos);
 
         //Draw Buttons
         g.drawPixmap(mapButton, centerXPos - 250 - mapButton.getWidth()/2,centerYPos - 600);

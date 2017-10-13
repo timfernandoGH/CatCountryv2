@@ -30,15 +30,15 @@ public class GameMapScreen extends Screen {
         super(game);
         Graphics g = game.getGraphics();
         background = g.newPixmap("background.png", Graphics.PixmapFormat.RGB565);
-        playButton = g.newPixmap("PlayButton.png", Graphics.PixmapFormat.ARGB4444);
+        playButton = g.newPixmap("Challenges.png", Graphics.PixmapFormat.ARGB4444);
         gameMap = g.newPixmap("gamemap.png",Graphics.PixmapFormat.ARGB4444);
 
         playXPos = g.getWidth() / 2 - playButton.getWidth() / 2;
         playYPos = g.getHeight() / 3 - playButton.getHeight() / 2;
 
-        menuButton = g.newPixmap("Ads.png",Graphics.PixmapFormat.ARGB4444);
-        partyButton = g.newPixmap("PlayButton.png",Graphics.PixmapFormat.ARGB4444);
-        itemsButton = g.newPixmap("Button.png",Graphics.PixmapFormat.ARGB4444);
+        menuButton = g.newPixmap("Menu.png",Graphics.PixmapFormat.ARGB4444);
+        partyButton = g.newPixmap("Party.png",Graphics.PixmapFormat.ARGB4444);
+        itemsButton = g.newPixmap("Items.png",Graphics.PixmapFormat.ARGB4444);
 
         centerXPos = g.getWidth() /2;
         centerYPos = g.getHeight() /2;
