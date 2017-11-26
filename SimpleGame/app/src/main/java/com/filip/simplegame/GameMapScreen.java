@@ -64,6 +64,7 @@ public class GameMapScreen extends Screen {
     public void present(float deltaTime)
     {
         Graphics g = game.getGraphics();
+
         g.drawPixmap(background, 0, 0);
         g.drawPixmap(playButton, playXPos, playYPos - 100);
         g.drawPixmap(gameMap,g.getWidth()/2 - gameMap.getWidth()/2,g.getHeight()/2 - gameMap.getHeight()/2);

@@ -20,7 +20,6 @@ public class MainMenuScreen extends Screen {
     private static Pixmap background;
     private static Pixmap playButton;
     private static Pixmap titleImg;
-    private static Pixmap ads;
 
     private int playXPos;
     private int playYPos;
@@ -30,9 +29,8 @@ public class MainMenuScreen extends Screen {
         Graphics g = game.getGraphics();
 
         background = g.newPixmap("background.png", Graphics.PixmapFormat.RGB565);
-        playButton = g.newPixmap("PlayButton.png", Graphics.PixmapFormat.ARGB4444);
+        playButton = g.newPixmap("Button.png", Graphics.PixmapFormat.ARGB4444);
         titleImg = g.newPixmap("CatCountryTitle.png", Graphics.PixmapFormat.ARGB4444);
-        ads = g.newPixmap("Ads.png", Graphics.PixmapFormat.ARGB4444);
 
         playXPos = g.getWidth() / 2 - playButton.getWidth() / 2;
         playYPos = g.getHeight() / 2 - playButton.getHeight() / 2;
@@ -46,7 +44,7 @@ public class MainMenuScreen extends Screen {
         for(int i = 0; i < len; i++){
             TouchEvent event = touchEvents.get(i);
             if(event.type == TouchEvent.TOUCH_UP){
-                if (inBounds(event, playXPos, playYPos - 100, playButton.getWidth(), playButton.getHeight())){
+                if (inBounds(event, playXPos, playYPos , playButton.getWidth(), playButton.getHeight())){
                     game.setScreen(new GameScreen(game));
                     return;
                 }
@@ -58,9 +56,9 @@ public class MainMenuScreen extends Screen {
     public void present(float deltaTime){
         Graphics g = game.getGraphics();
         g.drawPixmap(background, 0, 0);
-        g.drawPixmap(playButton, playXPos, playYPos - 100);
-        g.drawPixmap(titleImg,playXPos,playYPos - 500);
-        g.drawPixmap(ads,playXPos,playYPos + 125);
+        g.drawPixmap(playButton, playXPos, playYPos );
+        g.drawPixmap(titleImg,playXPos+250,playYPos);
+        //g.drawPixmap(ads,playXPos,playYPos + 125);
 
     }
 

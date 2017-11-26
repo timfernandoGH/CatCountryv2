@@ -3,7 +3,7 @@ package com.filip.androidgames.framework;
 public abstract class Screen {
 	
     protected final Game game;
-
+    protected static int credits;
     public Screen(Game game)
     {
         this.game = game;
