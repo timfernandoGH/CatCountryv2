@@ -9,7 +9,8 @@ import com.filip.androidgames.framework.Graphics;
 import com.filip.androidgames.framework.Input.TouchEvent;
 import com.filip.androidgames.framework.Pixmap;
 import com.filip.androidgames.framework.Screen;
-import com.filip.androidgames.framework.DrawText;
+import com.filip.androidgames.framework.Pets;
+import com.filip.androidgames.framework.Attacks;
 
 import java.util.List;
 
@@ -24,17 +25,19 @@ public class MainMenuScreen extends Screen {
     private int playXPos;
     private int playYPos;
 
+    private Attacks[] defAttacks = {new Attacks("Furball",30),new Attacks("DeathLaser", 80)};
+
     public MainMenuScreen(Game game){
         super(game);
         Graphics g = game.getGraphics();
         //Initialize Pets
-        pets[0] = g.newPixmap("catportrait.png", Graphics.PixmapFormat.ARGB4444);
-        pets[1] = g.newPixmap("catportrait2.png", Graphics.PixmapFormat.ARGB4444);
+        pets[0] = new Pets(g.newPixmap("catportrait.png", Graphics.PixmapFormat.ARGB4444),0,0,100,200,5,defAttacks);
+        pets[1] = new Pets(g.newPixmap("catportrait2.png", Graphics.PixmapFormat.ARGB4444),0,0,125,250,6,defAttacks);
 
 
 
 
-        mainPet = g.newPixmap("catportrait.png",Graphics.PixmapFormat.ARGB4444);
+        mainPet = pets[0];
         background = g.newPixmap("background.png", Graphics.PixmapFormat.RGB565);
         playButton = g.newPixmap("PlayButton.png", Graphics.PixmapFormat.ARGB4444);
         titleImg = g.newPixmap("CatCountryTitle.png", Graphics.PixmapFormat.ARGB4444);
@@ -64,7 +67,7 @@ public class MainMenuScreen extends Screen {
         Graphics g = game.getGraphics();
         g.drawPixmap(background, 0, 0);
         g.drawPixmap(playButton, playXPos, playYPos );
-        g.drawPixmap(titleImg,playXPos+250,playYPos);
+        g.drawPixmap(titleImg,g.getWidth()/2+250,g.getHeight()/2-titleImg.getHeight()/2);
         //g.drawPixmap(ads,playXPos,playYPos + 125);
 
     }

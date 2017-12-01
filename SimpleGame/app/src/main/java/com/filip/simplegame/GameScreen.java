@@ -7,6 +7,7 @@ package com.filip.simplegame;
 import com.filip.androidgames.framework.Game;
 import com.filip.androidgames.framework.Graphics;
 import com.filip.androidgames.framework.Input.TouchEvent;
+import com.filip.androidgames.framework.Marker;
 import com.filip.androidgames.framework.Pixmap;
 import com.filip.androidgames.framework.Screen;
 
@@ -23,6 +24,9 @@ public class GameScreen extends Screen {
     private static Pixmap partyButton;
     private static Pixmap evolveButton;
     private static Pixmap map;
+    private static Pixmap markerUp;
+    private static Pixmap markerDown;
+    private static Pixmap line;
 
     private int centerXPos;
     private int centerYPos;
@@ -30,7 +34,17 @@ public class GameScreen extends Screen {
     private int numScore=100000;
     private String score = "100000";
 
+    private static Pixmap catWalk;
+    private static final float UPDATE_CAT_WALK = 0.5f;
     private float timePassed;
+    private int catWalkHeight = 51;
+    private int catWalkYSrc = 0;
+    private int catWalkXSrc = 0;
+    private int catWalkWidth = 25;
+
+    private Marker marker1,marker2;
+
+
 
 
     public GameScreen(Game game){
@@ -42,10 +56,17 @@ public class GameScreen extends Screen {
         map = g.newPixmap("gamemap.png", Graphics.PixmapFormat.ARGB4444);
         //Buttons
         challButton = g.newPixmap("Challenges.png",Graphics.PixmapFormat.ARGB4444);
-        shopButton = g.newPixmap("Button.png",Graphics.PixmapFormat.ARGB4444);
-        partyButton = g.newPixmap("Party.png",Graphics.PixmapFormat.ARGB4444);
-        evolveButton = g.newPixmap("Button.png",Graphics.PixmapFormat.ARGB4444);
+        shopButton = g.newPixmap("Heal.png",Graphics.PixmapFormat.ARGB4444);
+        partyButton = g.newPixmap("PartyButton.png",Graphics.PixmapFormat.ARGB4444);
+        evolveButton = g.newPixmap("EvolveButton.png",Graphics.PixmapFormat.ARGB4444);
+        //Markers Pixmap
+        markerUp = g.newPixmap("Marker.png", Graphics.PixmapFormat.ARGB4444);
+        markerDown = g.newPixmap("DarkerMarker.png", Graphics.PixmapFormat.ARGB4444);
 
+        marker1 = new Marker(markerDown,true,0,0);
+        marker2 = new Marker(markerUp,false,0,0);
+        //Lines
+        line = g.newPixmap("townlines.png", Graphics.PixmapFormat.ARGB4444);
         centerXPos = g.getWidth() /2;
         centerYPos = g.getHeight() /2;
 
@@ -76,8 +97,13 @@ public class GameScreen extends Screen {
                 }
                 if(inBounds(event, centerXPos -350-evolveButton.getWidth()/2,centerYPos-450-partyButton.getHeight()/2,evolveButton.getWidth(),evolveButton.getHeight()))
                 {
-                    game.setScreen(new GameMapScreen(game));
+                    game.setScreen(new GameEvolveScreen(game));
                     return;
+                }
+                if(inBounds(event, marker2.getX(),marker2.getY(),marker2.getPixmap().getWidth(),marker2.getPixmap().getHeight())){
+                    marker2.setPixmap(markerDown);
+                    marker2.down = true;
+                    //do the timer
                 }
             }
         }
@@ -98,18 +124,27 @@ public class GameScreen extends Screen {
         Graphics g = game.getGraphics();
         g.drawPixmap(background, 0, 0);
 
-        //Draw Buttons
-        g.drawPixmap(mainPet,g.getWidth()/2 + 200,g.getHeight()-mainPet.getWidth() - 50);
+        //Draw Main Pet
+        g.drawPixmap(mainPet.getPixmap(),g.getWidth()/2 + 200,g.getHeight()-mainPet.getPixmap().getWidth() - 50);
+
+        //Draw Map
         g.drawPixmap(map,centerXPos-map.getWidth()/2,centerYPos-map.getHeight()/2);
+
+        //Draw Lines
+        g.drawPixmap(line, centerXPos-line.getWidth()/2-100+map.getWidth()/2,centerYPos-line.getWidth()/2+100-map.getHeight()/2);
+        //Draw Markers
+        marker1.setX(centerXPos-markerUp.getWidth()/2 - 100+map.getWidth()/2);
+        marker1.setY(centerYPos-markerUp.getWidth()/2+ 100-map.getHeight()/2);
+        g.drawPixmap(marker1.getPixmap(),marker1.getX(),marker1.getY());
+
+        marker2.setX(centerXPos-markerUp.getWidth()/2 - 100+map.getWidth()/2);
+        marker2.setY(centerYPos-markerUp.getWidth()/2-100+map.getHeight()/2);
+        g.drawPixmap(marker2.getPixmap(),marker2.getX(),marker2.getY());
+        //Draw Buttons
         g.drawPixmap(challButton,centerXPos + 350 -challButton.getWidth()/2,centerYPos-challButton.getHeight() /2);
         g.drawPixmap(shopButton,centerXPos - 350 - shopButton.getWidth()/2 ,centerYPos-shopButton.getHeight()/2);
         g.drawPixmap(partyButton,centerXPos -350 - partyButton.getWidth()/2,centerYPos-partyButton.getHeight()/2+450);
         g.drawPixmap(evolveButton,centerXPos -350 - evolveButton.getWidth()/2,centerYPos-evolveButton.getHeight()/2 -450);
-
-
-
-
-
 
         drawText(g, score, g.getWidth() / 2 +350, 0);
     }

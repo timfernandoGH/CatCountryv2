@@ -41,7 +41,7 @@ public class GamePartyScreen extends Screen {
             TouchEvent event = touchEvents.get(i);
             if (event.type == TouchEvent.TOUCH_DOWN) {
                 for(int j = 0; j < totalOwnedPets;j++) {
-                    if (inBounds(event, centerXPos, posY + (pets[j].getHeight()+50) * j, pets[j].getWidth(), pets[j].getHeight())) {
+                    if (inBounds(event, pets[j].getX(), pets[j].y, pets[j].getPixmap().getWidth(), pets[j].getPixmap().getHeight())) {
                         mainPet = pets[j];
                         return;
                     }
@@ -63,11 +63,13 @@ public class GamePartyScreen extends Screen {
 
         int pY = posY;
         g.drawPixmap(background,0,0);
-        g.drawPixmap(mainPet,g.getWidth()/2 + 200,g.getHeight()-mainPet.getWidth() - 50);
+        g.drawPixmap(mainPet.getPixmap(),g.getWidth()/2 + 200,g.getHeight()-mainPet.getPixmap().getWidth() - 50);
         for(int i = 0; i < totalOwnedPets; i++)
         {
-            g.drawPixmap(pets[i],g.getWidth()/2,pY);
-            pY = pY+pets[i].getWidth()+50;
+            g.drawPixmap(pets[i].getPixmap(),g.getWidth()/2,pY);
+            pets[i].setX(g.getWidth()/2);
+            pets[i].setY(pY);
+            pY = pY+pets[i].getPixmap().getWidth()+50;
         }
     }
     public void drawText(Graphics g, String line, int x, int y){

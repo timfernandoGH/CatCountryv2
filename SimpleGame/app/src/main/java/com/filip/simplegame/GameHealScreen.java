@@ -17,6 +17,8 @@ public class GameHealScreen extends Screen{
     private static Pixmap numbers;
     private static Pixmap healButton;
     private static Pixmap background;
+    private Pixmap healthbar[] = new Pixmap[totalOwnedPets];
+    private Pixmap dmgbar[] = new Pixmap[totalOwnedPets];
     private String score;
     private int centerXPos;
     private int centerYPos;
@@ -30,7 +32,10 @@ public class GameHealScreen extends Screen{
         background = g.newPixmap("background.png", Graphics.PixmapFormat.RGB565);
         numbers = g.newPixmap("numbers.png", Graphics.PixmapFormat.ARGB4444);
         healButton = g.newPixmap("Button.png",Graphics.PixmapFormat.ARGB4444);
-
+        for(int i=0;i<totalOwnedPets;i++) {
+            healthbar[i] = g.newPixmap("HealthBar.png", Graphics.PixmapFormat.ARGB4444);
+            dmgbar[i] = g.newPixmap("DamageBar.png", Graphics.PixmapFormat.ARGB4444);
+        }
         centerXPos = g.getWidth() /2;
         centerYPos = g.getHeight() /2;
     }
@@ -62,11 +67,15 @@ public class GameHealScreen extends Screen{
         int pY = 100;
 
         g.drawPixmap(background,0,0);
-        g.drawPixmap(mainPet,g.getWidth()/2 + 200,g.getHeight()-mainPet.getWidth() - 50);
+        g.drawPixmap(mainPet.getPixmap(),g.getWidth()/2 + 200,g.getHeight()-mainPet.getPixmap().getWidth() - 50);
         for(int i = 0; i < totalOwnedPets; i++)
         {
-            g.drawPixmap(pets[i],g.getWidth()/2,pY);
-            pY = pY+pets[i].getWidth()+50;
+            g.drawPixmap(pets[i].getPixmap(),g.getWidth()/2,pY);
+            pets[i].setX(g.getWidth()/2);
+            pets[i].setY(pY);
+            g.drawPixmap(dmgbar[i],pets[i].getX(),pets[i].getY()+pets[i].getPixmap().getWidth()+10);
+            g.drawPixmap(healthbar[i],pets[i].getX(),pets[i].getY()+pets[i].getPixmap().getWidth()+10,0,0,healthbar[i].getWidth() * (pets[i].getHp()/pets[i].getMaxhp()),healthbar[i].getHeight());
+            pY = pY+pets[i].getPixmap().getWidth()+50;
         }
         g.drawPixmap(healButton,g.getWidth() - healButton.getWidth(),centerYPos-healButton.getHeight()/2);
 
