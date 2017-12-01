@@ -1,54 +1,55 @@
 package com.filip.simplegame;
 
-/**
- * Created by Admiral AreoSpeedwag on 11/25/2017.
- */
-import android.view.ViewDebug;
-
+import com.filip.androidgames.framework.Screen;
 import com.filip.androidgames.framework.Game;
 import com.filip.androidgames.framework.Graphics;
 import com.filip.androidgames.framework.Input.TouchEvent;
 import com.filip.androidgames.framework.Pixmap;
-import com.filip.androidgames.framework.Screen;
 
 import java.util.List;
 
-public class GameHealScreen extends Screen{
+/**
+ * Created by Admiral AreoSpeedwag on 11/30/2017.
+ */
+
+
+
+public class GamePartyScreen extends Screen {
     private static Pixmap numbers;
     private static Pixmap healButton;
     private static Pixmap background;
+
     private String score;
     private int centerXPos;
     private int centerYPos;
-    public GameHealScreen(Game game)
+
+    private int posY = 100;
+    public GamePartyScreen(Game game)
     {
         super(game);
-
-        score = "" + credits;
-
         Graphics g = game.getGraphics();
-        background = g.newPixmap("background.png", Graphics.PixmapFormat.RGB565);
-        numbers = g.newPixmap("numbers.png", Graphics.PixmapFormat.ARGB4444);
-        healButton = g.newPixmap("Button.png",Graphics.PixmapFormat.ARGB4444);
+        background = g.newPixmap("background.png",Graphics.PixmapFormat.RGB565);
 
         centerXPos = g.getWidth() /2;
         centerYPos = g.getHeight() /2;
     }
-    public void update(float deltaTime){
+    public void update(float deltaTime) {
         List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
 
         int len = touchEvents.size();
         for(int i = 0; i < len; i++) {
             TouchEvent event = touchEvents.get(i);
             if (event.type == TouchEvent.TOUCH_DOWN) {
-                if (inBounds(event, game.getGraphics().getWidth() - healButton.getWidth(),centerYPos-healButton.getHeight()/2,healButton.getWidth(),healButton.getHeight()))
-                {
-                    credits = this.credits - 1000;
-                    score = "" + credits;
+                for(int j = 0; j < totalOwnedPets;j++) {
+                    if (inBounds(event, centerXPos, posY + (pets[j].getHeight()+50) * j, pets[j].getWidth(), pets[j].getHeight())) {
+                        mainPet = pets[j];
+                        return;
+                    }
                 }
             }
         }
     }
+
     @Override
     public void pause(){}
 
@@ -57,10 +58,10 @@ public class GameHealScreen extends Screen{
 
     @Override
     public void dispose(){}
-    public void present(float deltaTime){
+    public void present(float deltaTime) {
         Graphics g = game.getGraphics();
-        int pY = 100;
 
+        int pY = posY;
         g.drawPixmap(background,0,0);
         g.drawPixmap(mainPet,g.getWidth()/2 + 200,g.getHeight()-mainPet.getWidth() - 50);
         for(int i = 0; i < totalOwnedPets; i++)
@@ -68,9 +69,6 @@ public class GameHealScreen extends Screen{
             g.drawPixmap(pets[i],g.getWidth()/2,pY);
             pY = pY+pets[i].getWidth()+50;
         }
-        g.drawPixmap(healButton,g.getWidth() - healButton.getWidth(),centerYPos-healButton.getHeight()/2);
-
-        drawText(g, score, g.getWidth() / 2 +350, 0);
     }
     public void drawText(Graphics g, String line, int x, int y){
         int len = line.length();

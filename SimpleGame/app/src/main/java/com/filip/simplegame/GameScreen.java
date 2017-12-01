@@ -43,7 +43,7 @@ public class GameScreen extends Screen {
         //Buttons
         challButton = g.newPixmap("Challenges.png",Graphics.PixmapFormat.ARGB4444);
         shopButton = g.newPixmap("Button.png",Graphics.PixmapFormat.ARGB4444);
-        partyButton = g.newPixmap("Button.png",Graphics.PixmapFormat.ARGB4444);
+        partyButton = g.newPixmap("Party.png",Graphics.PixmapFormat.ARGB4444);
         evolveButton = g.newPixmap("Button.png",Graphics.PixmapFormat.ARGB4444);
 
         centerXPos = g.getWidth() /2;
@@ -71,7 +71,7 @@ public class GameScreen extends Screen {
                 }
                 if(inBounds(event, centerXPos -350-partyButton.getWidth()/2, centerYPos+450-partyButton.getHeight()/2,partyButton.getWidth(),partyButton.getHeight()))
                 {
-                    game.setScreen(new GameMapScreen(game));
+                    game.setScreen(new GamePartyScreen(game));
                     return;
                 }
                 if(inBounds(event, centerXPos -350-evolveButton.getWidth()/2,centerYPos-450-partyButton.getHeight()/2,evolveButton.getWidth(),evolveButton.getHeight()))
@@ -99,6 +99,7 @@ public class GameScreen extends Screen {
         g.drawPixmap(background, 0, 0);
 
         //Draw Buttons
+        g.drawPixmap(mainPet,g.getWidth()/2 + 200,g.getHeight()-mainPet.getWidth() - 50);
         g.drawPixmap(map,centerXPos-map.getWidth()/2,centerYPos-map.getHeight()/2);
         g.drawPixmap(challButton,centerXPos + 350 -challButton.getWidth()/2,centerYPos-challButton.getHeight() /2);
         g.drawPixmap(shopButton,centerXPos - 350 - shopButton.getWidth()/2 ,centerYPos-shopButton.getHeight()/2);

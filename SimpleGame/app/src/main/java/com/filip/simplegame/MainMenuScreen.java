@@ -27,7 +27,14 @@ public class MainMenuScreen extends Screen {
     public MainMenuScreen(Game game){
         super(game);
         Graphics g = game.getGraphics();
+        //Initialize Pets
+        pets[0] = g.newPixmap("catportrait.png", Graphics.PixmapFormat.ARGB4444);
+        pets[1] = g.newPixmap("catportrait2.png", Graphics.PixmapFormat.ARGB4444);
 
+
+
+
+        mainPet = g.newPixmap("catportrait.png",Graphics.PixmapFormat.ARGB4444);
         background = g.newPixmap("background.png", Graphics.PixmapFormat.RGB565);
         playButton = g.newPixmap("PlayButton.png", Graphics.PixmapFormat.ARGB4444);
         titleImg = g.newPixmap("CatCountryTitle.png", Graphics.PixmapFormat.ARGB4444);
