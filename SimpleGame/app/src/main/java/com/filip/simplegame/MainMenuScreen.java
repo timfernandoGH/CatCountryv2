@@ -25,7 +25,7 @@ public class MainMenuScreen extends Screen {
     private int playXPos;
     private int playYPos;
 
-    private Attacks[] defAttacks = {new Attacks("Furball",30),new Attacks("DeathLaser", 80)};
+    private Attacks[] defAttacks = {new Attacks("Furball",30),new Attacks("DeathLaser", 100)};
 
     public MainMenuScreen(Game game){
         super(game);

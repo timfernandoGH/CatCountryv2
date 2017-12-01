@@ -13,6 +13,7 @@ public class Pets {
     private Attacks[] attackList = new Attacks[4];
     public Pixmap getPixmap(){return pixmap;}
     public int getHp(){return hp;}
+    public void setHp(int hp){this.hp = hp;}
     public int getMaxhp(){return  maxhp;}
     public int getAttack(){return attack;}
     public Attacks[] getAttackList(){return attackList;}
@@ -25,6 +26,7 @@ public class Pets {
         this.x = x;
         this.y = y;
         this.hp = hp;
+        this.maxhp = maxhp;
         this.attack = attack;
         this.attackList = learnedAttacks;
     }

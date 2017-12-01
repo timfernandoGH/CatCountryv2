@@ -16,7 +16,7 @@ public class GameEvolveScreen extends Screen{
     private static Pixmap numbers;
     private static Pixmap healButton;
     private static Pixmap background;
-
+    private static Pixmap back;
     private String score;
     private int centerXPos;
     private int centerYPos;
@@ -27,7 +27,7 @@ public class GameEvolveScreen extends Screen{
         super(game);
         Graphics g = game.getGraphics();
         background = g.newPixmap("background.png",Graphics.PixmapFormat.RGB565);
-
+        back = g.newPixmap("BackButton.png", Graphics.PixmapFormat.ARGB4444);
         centerXPos = g.getWidth() /2;
         centerYPos = g.getHeight() /2;
     }
@@ -44,6 +44,11 @@ public class GameEvolveScreen extends Screen{
                         return;
                     }
                 }
+            }
+            if(inBounds(event,0+back.getWidth(),centerYPos-back.getHeight()/2,back.getWidth(),back.getHeight()))
+            {
+                game.setScreen(new GameScreen(game));
+                return;
             }
         }
     }
@@ -69,6 +74,7 @@ public class GameEvolveScreen extends Screen{
             pets[i].setY(pY);
             pY = pY+pets[i].getPixmap().getWidth()+50;
         }
+        g.drawPixmap(back,0+back.getWidth(),centerYPos-back.getHeight()/2);
     }
     public void drawText(Graphics g, String line, int x, int y){
         int len = line.length();

@@ -19,6 +19,7 @@ public class GameHealScreen extends Screen{
     private static Pixmap background;
     private Pixmap healthbar[] = new Pixmap[totalOwnedPets];
     private Pixmap dmgbar[] = new Pixmap[totalOwnedPets];
+    private static Pixmap back;
     private String score;
     private int centerXPos;
     private int centerYPos;
@@ -31,7 +32,8 @@ public class GameHealScreen extends Screen{
         Graphics g = game.getGraphics();
         background = g.newPixmap("background.png", Graphics.PixmapFormat.RGB565);
         numbers = g.newPixmap("numbers.png", Graphics.PixmapFormat.ARGB4444);
-        healButton = g.newPixmap("Button.png",Graphics.PixmapFormat.ARGB4444);
+        healButton = g.newPixmap("Heal.png",Graphics.PixmapFormat.ARGB4444);
+        back = g.newPixmap("BackButton.png", Graphics.PixmapFormat.ARGB4444);
         for(int i=0;i<totalOwnedPets;i++) {
             healthbar[i] = g.newPixmap("HealthBar.png", Graphics.PixmapFormat.ARGB4444);
             dmgbar[i] = g.newPixmap("DamageBar.png", Graphics.PixmapFormat.ARGB4444);
@@ -50,6 +52,16 @@ public class GameHealScreen extends Screen{
                 {
                     credits = this.credits - 1000;
                     score = "" + credits;
+                    for(int j =0; j < totalOwnedPets;j++)
+                    {
+                        pets[j].setHp(pets[j].getMaxhp());
+                    }
+                    mainPet.setHp(mainPet.getMaxhp());
+                }
+                if(inBounds(event,0+back.getWidth(),centerYPos-back.getHeight()/2,back.getWidth(),back.getHeight()))
+                {
+                    game.setScreen(new GameScreen(game));
+                    return;
                 }
             }
         }
@@ -73,11 +85,13 @@ public class GameHealScreen extends Screen{
             g.drawPixmap(pets[i].getPixmap(),g.getWidth()/2,pY);
             pets[i].setX(g.getWidth()/2);
             pets[i].setY(pY);
-            g.drawPixmap(dmgbar[i],pets[i].getX(),pets[i].getY()+pets[i].getPixmap().getWidth()+10);
-            g.drawPixmap(healthbar[i],pets[i].getX(),pets[i].getY()+pets[i].getPixmap().getWidth()+10,0,0,healthbar[i].getWidth() * (pets[i].getHp()/pets[i].getMaxhp()),healthbar[i].getHeight());
-            pY = pY+pets[i].getPixmap().getWidth()+50;
+            double percentage =((double)pets[i].getHp()/(double)pets[i].getMaxhp());
+            g.drawPixmap(dmgbar[i],pets[i].getX()+pets[i].getPixmap().getWidth()+10,pets[i].getY());
+            g.drawPixmap(healthbar[i],pets[i].getX()+pets[i].getPixmap().getWidth()+10,pets[i].getY(),0,0,19 ,(int)(healthbar[i].getHeight() * percentage) );
+            pY = pY+pets[i].getPixmap().getWidth()+60;
         }
         g.drawPixmap(healButton,g.getWidth() - healButton.getWidth(),centerYPos-healButton.getHeight()/2);
+        g.drawPixmap(back,0+back.getWidth(),centerYPos-back.getHeight()/2);
 
         drawText(g, score, g.getWidth() / 2 +350, 0);
     }
