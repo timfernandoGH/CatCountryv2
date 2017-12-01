@@ -41,7 +41,7 @@ public class GameScreen extends Screen {
         numbers = g.newPixmap("numbers.png", Graphics.PixmapFormat.ARGB4444);
         map = g.newPixmap("gamemap.png", Graphics.PixmapFormat.ARGB4444);
         //Buttons
-        challButton = g.newPixmap("Button.png",Graphics.PixmapFormat.ARGB4444);
+        challButton = g.newPixmap("Challenges.png",Graphics.PixmapFormat.ARGB4444);
         shopButton = g.newPixmap("Button.png",Graphics.PixmapFormat.ARGB4444);
         partyButton = g.newPixmap("Button.png",Graphics.PixmapFormat.ARGB4444);
         evolveButton = g.newPixmap("Button.png",Graphics.PixmapFormat.ARGB4444);
@@ -59,22 +59,22 @@ public class GameScreen extends Screen {
         for(int i = 0; i < len; i++) {
             TouchEvent event = touchEvents.get(i);
             if (event.type == TouchEvent.TOUCH_DOWN) {
-                if(inBounds(event,centerXPos +350 ,centerYPos,challButton.getWidth(),challButton.getHeight()))
+                if(inBounds(event,centerXPos +350-challButton.getWidth()/2 ,centerYPos-challButton.getHeight()/2,challButton.getWidth(),challButton.getHeight()))
                 {
                     game.setScreen(new GameChallengeScreen(game));
                     return;
                 }
-                if(inBounds(event, centerXPos - 350, centerYPos,shopButton.getWidth(),shopButton.getHeight()))
+                if(inBounds(event, centerXPos - 350-shopButton.getWidth()/2, centerYPos-shopButton.getHeight()/2,shopButton.getWidth(),shopButton.getHeight()))
                 {
                     game.setScreen(new GameHealScreen(game));
                     return;
                 }
-                if(inBounds(event, centerXPos -350, centerYPos+450,partyButton.getWidth(),partyButton.getHeight()))
+                if(inBounds(event, centerXPos -350-partyButton.getWidth()/2, centerYPos+450-partyButton.getHeight()/2,partyButton.getWidth(),partyButton.getHeight()))
                 {
                     game.setScreen(new GameMapScreen(game));
                     return;
                 }
-                if(inBounds(event, centerXPos -350,centerYPos-450,evolveButton.getWidth(),evolveButton.getHeight()))
+                if(inBounds(event, centerXPos -350-evolveButton.getWidth()/2,centerYPos-450-partyButton.getHeight()/2,evolveButton.getWidth(),evolveButton.getHeight()))
                 {
                     game.setScreen(new GameMapScreen(game));
                     return;

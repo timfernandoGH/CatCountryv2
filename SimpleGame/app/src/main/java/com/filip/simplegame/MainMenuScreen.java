@@ -29,7 +29,7 @@ public class MainMenuScreen extends Screen {
         Graphics g = game.getGraphics();
 
         background = g.newPixmap("background.png", Graphics.PixmapFormat.RGB565);
-        playButton = g.newPixmap("Button.png", Graphics.PixmapFormat.ARGB4444);
+        playButton = g.newPixmap("PlayButton.png", Graphics.PixmapFormat.ARGB4444);
         titleImg = g.newPixmap("CatCountryTitle.png", Graphics.PixmapFormat.ARGB4444);
 
         playXPos = g.getWidth() / 2 - playButton.getWidth() / 2;

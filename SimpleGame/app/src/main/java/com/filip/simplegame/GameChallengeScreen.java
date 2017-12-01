@@ -74,7 +74,7 @@ public class GameChallengeScreen extends  Screen
             TouchEvent event = touchEvents.get(i);
             if(event.type == TouchEvent.TOUCH_UP){
                 if (inBounds(event, centerXPos-250, centerYPos-600, escapeButton.getWidth(), escapeButton.getHeight())){
-                    game.setScreen(new GameMapScreen(game));
+                    game.setScreen(new GameScreen(game));
                     return;
                 }
                 if(inBounds(event,centerXPos+250,centerYPos+400,hitCount.getWidth(),hitCount.getHeight()))
