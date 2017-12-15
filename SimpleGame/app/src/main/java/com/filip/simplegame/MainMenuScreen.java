@@ -44,6 +44,8 @@ public class MainMenuScreen extends Screen {
 
         playXPos = g.getWidth() / 2 - playButton.getWidth() / 2;
         playYPos = g.getHeight() / 2 - playButton.getHeight() / 2;
+
+
     }
 
     @Override

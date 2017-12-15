@@ -3,6 +3,7 @@ package com.filip.simplegame;
 /**
  * Created by Admiral AreoSpeedwag on 10/10/2017.
  */
+import com.filip.androidgames.framework.AttackAnim;
 import com.filip.androidgames.framework.Attacks;
 import com.filip.androidgames.framework.Game;
 import com.filip.androidgames.framework.Graphics;
@@ -25,7 +26,7 @@ public class GameChallengeScreen extends  Screen
     private static Pixmap[] hpbar = new Pixmap[2];
     private static Pixmap[] dmgbar = new Pixmap[2];
     private static Pixmap victoryImg;
-    private static boolean victory = false;
+    private boolean victory = false;
     private static String health = "10";
     private static String hits = " ";
 
@@ -35,6 +36,30 @@ public class GameChallengeScreen extends  Screen
     private int combo = 0;
     private int enemycurrHealth = 200;
     private int enemyMaxHealth = enemycurrHealth;
+
+    private float enemyPosX;
+    private float enemyPosY;
+    private float playerPosX;
+    private float playerPosY;
+
+    private float animDistanceX;
+    private float animDistanceY;
+
+    private float animTime;
+    private float animStepX;
+    private float animStepY;
+
+    private boolean isAnimating = false;
+
+    private Pixmap laser;
+    private Pixmap furball;
+
+    private AttackAnim attackAnim;
+
+    private float animX;
+    private float animY;
+
+    private float millcount = 0;
 
     private Timer t;
 
@@ -48,6 +73,8 @@ public class GameChallengeScreen extends  Screen
         escapeButton = g.newPixmap("BackButton.png", Graphics.PixmapFormat.ARGB4444);
         enemycatImg = g.newPixmap("enemycat.png", Graphics.PixmapFormat.ARGB4444);
         catImg = g.newPixmap("cat.png", Graphics.PixmapFormat.ARGB4444);
+        furball = g.newPixmap("fireball.png",Graphics.PixmapFormat.ARGB4444);
+        laser = g.newPixmap("laser.png", Graphics.PixmapFormat.ARGB4444);
 
         //Text
         numbers = g.newPixmap("numbers.png", Graphics.PixmapFormat.ARGB4444);
@@ -66,34 +93,72 @@ public class GameChallengeScreen extends  Screen
         centerXPos = g.getWidth() /2;
         centerYPos = g.getHeight() /2;
 
+        enemyPosX = g.getWidth() -50 -enemycatImg.getWidth();
+        enemyPosY = g.getHeight() - enemycatImg.getHeight();
+        playerPosX = 50;
+        playerPosY = 30;
+
+        animDistanceX = enemyPosX - playerPosX;
+        animDistanceY = enemyPosY - playerPosY;
+
+        animTime = 20;
+
+        animStepX = (int)(animDistanceX/animTime);
+        animStepY = (int)(animDistanceY/animTime);
+
+        animX = playerPosX;
+        animY = playerPosY;
+
+
+
     }
     @Override
     public void update(float deltaTime)
     {
-        List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
+        if(isAnimating)
+        {
+            millcount++;
+            animX = animX+ animStepX;
+            animY = animY+ animStepY;
+            if(millcount >= animTime)
+            {
+                isAnimating = false;
+                millcount =0;
+                runAI();
+            }
+        } else {
 
-        int len = touchEvents.size();
-        for(int i = 0; i < len; i++){
-            TouchEvent event = touchEvents.get(i);
-            if(event.type == TouchEvent.TOUCH_UP){
-                Attacks[] moves = new Attacks[2];
-                moves = mainPet.getAttackList();
-                if(victory)
-                {
-                    game.setScreen(new GameScreen(game));
-                    return;
-                }
-                if(inBounds(event,0,20,attacks[0].getWidth(),attacks[0].getHeight()))
-                {
-                    enemycurrHealth = enemycurrHealth - moves[0].damage;
-                    //run AI
-                    runAI();
-                }
-                else if(inBounds(event,0,attacks[1].getHeight() + 10,attacks[1].getWidth(),attacks[1].getHeight()))
-                {
-                    enemycurrHealth = enemycurrHealth - moves[1].damage;
-                    //run AI
-                    runAI();
+
+            List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
+
+            int len = touchEvents.size();
+            for (int i = 0; i < len; i++) {
+                TouchEvent event = touchEvents.get(i);
+                if (event.type == TouchEvent.TOUCH_UP) {
+                    Attacks[] moves = new Attacks[2];
+                    moves = mainPet.getAttackList();
+                    if (victory) {
+                        game.setScreen(new GameScreen(game));
+                        return;
+                    }
+                    if (inBounds(event, 0, 20, attacks[0].getWidth(), attacks[0].getHeight())) {
+                        enemycurrHealth = enemycurrHealth - moves[0].damage;
+                        animX = playerPosX;
+                        animY = playerPosY;
+                        //attackAnim.setAttackSprite(furball);
+                        isAnimating = true;
+                        //run AI
+                        //runAI();
+                    } else if (inBounds(event, 0, attacks[1].getHeight() + 10, attacks[1].getWidth(), attacks[1].getHeight())) {
+                        enemycurrHealth = enemycurrHealth - moves[1].damage;
+                        animX = playerPosX;
+                        animY = playerPosY;
+                        //attackAnim.setAttackSprite(laser);
+                        isAnimating = true;
+
+                        //run AI
+                        //runAI();
+                    }
                 }
             }
         }
@@ -137,6 +202,12 @@ public class GameChallengeScreen extends  Screen
 
         //drawText(g,hits,centerXPos+250,centerYPos + 400-15);
         //drawTextHealth(g,health,centerXPos + 250 - enemyText.getWidth()/2,centerYPos -150);
+
+        if(isAnimating)
+        {
+            g.drawPixmap(furball,(int)animX,(int)animY);
+
+        }
     }
     @Override
     public void pause(){}
