@@ -25,7 +25,7 @@ public class GamePartyScreen extends Screen {
     private int centerYPos;
 
     private int posY = 100;
-    public GamePartyScreen(Game game)
+    public GamePartyScreen(Game game,boolean isFromBattle)
     {
         super(game);
         Graphics g = game.getGraphics();
@@ -33,6 +33,8 @@ public class GamePartyScreen extends Screen {
         back = g.newPixmap("BackButton.png", Graphics.PixmapFormat.ARGB4444);
         centerXPos = g.getWidth() /2;
         centerYPos = g.getHeight() /2;
+
+
     }
     public void update(float deltaTime) {
         List<TouchEvent> touchEvents = game.getInput().getTouchEvents();

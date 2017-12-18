@@ -14,4 +14,8 @@ public class SimpleGame extends AndroidGame{
 
         return new MainMenuScreen(this);
     }
+    @Override
+    public void onSignInFailed(){}
+    @Override
+    public void onSignInSucceeded(){}
 }

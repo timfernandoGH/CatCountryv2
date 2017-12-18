@@ -4,11 +4,14 @@ public abstract class Screen {
 	
     protected final Game game;
     protected static int credits;
+    protected static int outstandingBattles;
     protected static Pets mainPet;
     protected static Pets pets[] = new Pets[100];
     protected static Pets ownedPets[] = new Pets[100];
     protected static int totalOwnedPets = 2;
     protected static int totalPets =2;
+    protected static float walkTime = 0;
+    protected static boolean isWalking = false;
     public Screen(Game game)
     {
         this.game = game;

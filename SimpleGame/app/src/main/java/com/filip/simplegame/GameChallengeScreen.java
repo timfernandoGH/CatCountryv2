@@ -137,8 +137,12 @@ public class GameChallengeScreen extends  Screen
                 if (event.type == TouchEvent.TOUCH_UP) {
                     Attacks[] moves = new Attacks[2];
                     moves = mainPet.getAttackList();
+                    if(mainPet.getHp() <=0)
+                    {
+                        game.setScreen(new GameResultScreen(game,false));
+                    }
                     if (victory) {
-                        game.setScreen(new GameScreen(game));
+                        game.setScreen(new GameResultScreen(game,true));
                         return;
                     }
                     if (inBounds(event, 0, 20, attacks[0].getWidth(), attacks[0].getHeight())) {

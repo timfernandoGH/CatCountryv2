@@ -92,7 +92,7 @@ public class GameScreen extends Screen {
                 }
                 if(inBounds(event, centerXPos -350-partyButton.getWidth()/2, centerYPos+450-partyButton.getHeight()/2,partyButton.getWidth(),partyButton.getHeight()))
                 {
-                    game.setScreen(new GamePartyScreen(game));
+                    game.setScreen(new GamePartyScreen(game,false));
                     return;
                 }
                 if(inBounds(event, centerXPos -350-evolveButton.getWidth()/2,centerYPos-450-partyButton.getHeight()/2,evolveButton.getWidth(),evolveButton.getHeight()))
