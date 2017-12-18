@@ -21,20 +21,31 @@ public class GameChallengeScreen extends  Screen
     private static Pixmap escapeButton;
     private static Pixmap enemycatImg;
     private static Pixmap catImg;
+    public static String catChosen = "StarterCatBack01.png";
     private static Pixmap[] attacks = new Pixmap[2];
     private static Pixmap[] hpbar = new Pixmap[2];
     private static Pixmap[] dmgbar = new Pixmap[2];
     private static Pixmap victoryImg;
+    private static Pixmap defeatImg;
+    private static Pixmap dmgImg;
     private static boolean victory = false;
+    private static boolean defeat = false;
+    private static boolean damage = false;
+    public static boolean animate = true;
     private static String health = "10";
     private static String hits = " ";
+    private static final float m_updateAnim = 0.5f;
+    private float timePassed;
+    private float dmgDelay;
+    private int catYSrc = 0;
+    private int enemyYSrc = 0;
 
     private int centerXPos;
     private int centerYPos;
 
     private int combo = 0;
     private int enemycurrHealth = 200;
-    private int enemyMaxHealth = enemycurrHealth;
+    private int enemyMaxHealth = 200;
 
     private Timer t;
 
@@ -43,11 +54,13 @@ public class GameChallengeScreen extends  Screen
         Graphics g = game.getGraphics();
         background = g.newPixmap("background.png", Graphics.PixmapFormat.RGB565);
         t = new Timer();
+        // Images
         victoryImg = g.newPixmap("Victory.png", Graphics.PixmapFormat.ARGB4444);
-        //Images
+        defeatImg = g.newPixmap("Defeat.png", Graphics.PixmapFormat.ARGB4444);
+        dmgImg = g.newPixmap("DMG.png", Graphics.PixmapFormat.ARGB4444);
         escapeButton = g.newPixmap("BackButton.png", Graphics.PixmapFormat.ARGB4444);
-        enemycatImg = g.newPixmap("enemycat.png", Graphics.PixmapFormat.ARGB4444);
-        catImg = g.newPixmap("cat.png", Graphics.PixmapFormat.ARGB4444);
+        enemycatImg = g.newPixmap("Cathulu.png", Graphics.PixmapFormat.ARGB4444);
+        catImg = g.newPixmap(catChosen, Graphics.PixmapFormat.ARGB4444);
 
         //Text
         numbers = g.newPixmap("numbers.png", Graphics.PixmapFormat.ARGB4444);
@@ -81,17 +94,30 @@ public class GameChallengeScreen extends  Screen
                 if(victory)
                 {
                     game.setScreen(new GameScreen(game));
+                    victory = false;
+                    enemycurrHealth = 200;
+                    GameScreen.challengeActive = false;
+                    return;
+                }
+                if(defeat)
+                {
+                    game.setScreen(new GameScreen(game));
+                    defeat = false;
+                    enemycurrHealth = 200;
+                    GameScreen.challengeActive = false;
                     return;
                 }
                 if(inBounds(event,0,20,attacks[0].getWidth(),attacks[0].getHeight()))
                 {
                     enemycurrHealth = enemycurrHealth - moves[0].damage;
+                    damage = true;
                     //run AI
                     runAI();
                 }
                 else if(inBounds(event,0,attacks[1].getHeight() + 10,attacks[1].getWidth(),attacks[1].getHeight()))
                 {
                     enemycurrHealth = enemycurrHealth - moves[1].damage;
+                    damage = true;
                     //run AI
                     runAI();
                 }
@@ -106,22 +132,27 @@ public class GameChallengeScreen extends  Screen
         g.drawPixmap(background, 0, 0);
 
         //Images
+        if(damage)
+        {
+            g.drawPixmap(dmgImg, g.getWidth() - enemycatImg.getWidth(), g.getHeight() - enemycatImg.getHeight() / 3);
+            dmgDelay += deltaTime;
+            if(dmgDelay > m_updateAnim/2)
+            {
+                dmgDelay = 0;
+                damage = false;
+            }
+        }
         g.drawPixmap(escapeButton, g.getWidth() - escapeButton.getWidth(),0);
-        g.drawPixmap(enemycatImg,g.getWidth() -50 - enemycatImg.getWidth(),g.getHeight()-enemycatImg.getHeight());
-        g.drawPixmap(catImg,50,30);
         g.drawPixmap(attacks[0],0,20);
         g.drawPixmap(attacks[1],0,attacks[1].getHeight() + 10);
         double playerperc = (double)mainPet.getHp()/(double)mainPet.getMaxhp();
         double enemyperc = (double)enemycurrHealth/(double)enemyMaxHealth;
-        g.drawPixmap(dmgbar[0],60,30);
-        g.drawPixmap(dmgbar[1], g.getWidth() -enemycatImg.getWidth(),g.getHeight()-enemycatImg.getHeight());
-        g.drawPixmap(hpbar[0],60,30,0,0,hpbar[0].getWidth(),(int)(hpbar[0].getHeight() * playerperc));
-        g.drawPixmap(hpbar[1], g.getWidth() -enemycatImg.getWidth(),g.getHeight()-enemycatImg.getHeight(),0,0,hpbar[1].getWidth(),(int)(hpbar[1].getHeight() * enemyperc));
+        g.drawPixmap(dmgbar[0],80,30);
+        g.drawPixmap(dmgbar[1], g.getWidth() -enemycatImg.getWidth(),g.getHeight()-enemycatImg.getHeight()/3);
+        g.drawPixmap(hpbar[0],80,30,0,0,hpbar[0].getWidth(),(int)(hpbar[0].getHeight() * playerperc));
+        g.drawPixmap(hpbar[1], g.getWidth() -enemycatImg.getWidth(),g.getHeight()-enemycatImg.getHeight()/3,0,0,hpbar[1].getWidth(),(int)(hpbar[1].getHeight() * enemyperc));
 
-        if(victory)
-        {
-            g.drawPixmap(victoryImg,centerXPos-victoryImg.getWidth()/2,centerYPos-victoryImg.getHeight()/2);
-        }
+
         //g.drawPixmap(catImg,centerXPos -250 - catImg.getWidth()/2,centerYPos);
         //g.drawPixmap(ehealthImg, centerXPos - 250 - healthImg.getWidth()/2,centerYPos -400);
         //g.drawPixmap(healthImg,centerXPos + 250 - ehealthImg.getWidth()/2,centerYPos +100);
@@ -137,6 +168,40 @@ public class GameChallengeScreen extends  Screen
 
         //drawText(g,hits,centerXPos+250,centerYPos + 400-15);
         //drawTextHealth(g,health,centerXPos + 250 - enemyText.getWidth()/2,centerYPos -150);
+
+        // Animations
+        if(animate){
+            timePassed += deltaTime;
+            if(timePassed > m_updateAnim)
+            {
+                catYSrc += catImg.getHeight()/8;
+                enemyYSrc += enemycatImg.getHeight()/3;
+                timePassed = 0;
+
+                if(catYSrc == catImg.getHeight()){
+                    catYSrc = 0;
+                }
+
+                if(enemyYSrc == enemycatImg.getHeight()){
+                    enemyYSrc = 0;
+                }
+            }
+        }
+
+            g.drawPixmap(catImg, 90, 30, 0, catYSrc, catImg.getWidth(), catImg.getHeight() / 8);
+            g.drawPixmap(enemycatImg, g.getWidth() - enemycatImg.getWidth(), g.getHeight() - enemycatImg.getHeight() / 3, 0, enemyYSrc, enemycatImg.getWidth(), enemycatImg.getHeight() / 3);
+
+        if(victory)
+        {
+            animate = false;
+            g.drawPixmap(victoryImg,centerXPos-victoryImg.getWidth()/2,centerYPos-victoryImg.getHeight()/2);
+        }
+
+        else if(defeat)
+        {
+            animate = false;
+            g.drawPixmap(defeatImg, centerXPos-defeatImg.getWidth()/2, centerYPos-defeatImg.getHeight()/2);
+        }
     }
     @Override
     public void pause(){}
@@ -196,9 +261,12 @@ public class GameChallengeScreen extends  Screen
         mainPet.setHp(mainPet.getHp() - 40);
         if(enemycurrHealth <= 0)
         {
-
             victory = true;
+        }
 
+        if(mainPet.getHp() <= 0)
+        {
+            defeat = true;
         }
 
     }
