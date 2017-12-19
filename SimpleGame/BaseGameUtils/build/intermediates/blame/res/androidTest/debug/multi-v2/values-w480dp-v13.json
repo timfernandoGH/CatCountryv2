@@ -1,0 +1,26 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\Timothy Fernando\\Documents\\CatCountryv2\\SimpleGame\\BaseGameUtils\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-w480dp-v13\\values-w480dp-v13.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Timothy Fernando\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-20.0.0.aar\\f1f387ed4498998f80a5f07570c2d4d9\\res\\values-w480dp\\values.xml",
+                    "from": {
+                        "startLines": "3,4,5",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "56,118,190",
+                        "endColumns": "61,71,60",
+                        "endOffsets": "113,185,246"
+                    },
+                    "to": {
+                        "startLines": "2,3,4",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,117,189",
+                        "endColumns": "61,71,60",
+                        "endOffsets": "112,184,245"
+                    }
+                }
+            ]
+        }
+    ]
+}

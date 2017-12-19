@@ -1,0 +1,28 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\Timothy Fernando\\Documents\\CatCountryv2\\SimpleGame\\BaseGameUtils\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v11\\values-v11.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Timothy Fernando\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-20.0.0.aar\\f1f387ed4498998f80a5f07570c2d4d9\\res\\values-v11\\values.xml",
+                    "from": {
+                        "startLines": "3,20,33,46,63,65,67,69",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "56,899,1712,2537,3392,3513,3616,3741",
+                        "endLines": "18,31,44,61,63,65,67,69",
+                        "endColumns": "12,12,12,12,119,101,123,131",
+                        "endOffsets": "893,1706,2531,3386,3507,3610,3735,3868"
+                    },
+                    "to": {
+                        "startLines": "2,18,30,42,58,59,60,61",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,897,1709,2533,3387,3500,3595,3712",
+                        "endLines": "17,29,41,57,58,59,60,61",
+                        "endColumns": "12,12,12,12,112,94,116,124",
+                        "endOffsets": "892,1704,2528,3382,3495,3590,3707,3832"
+                    }
+                }
+            ]
+        }
+    ]
+}
