@@ -115,6 +115,13 @@ public class GameChallengeScreen extends  Screen
     @Override
     public void update(float deltaTime)
     {
+        if(isWalking)
+        {
+            walkTime = walkTime - deltaTime;
+            if(walkTime<= 0){
+                isWalking = false;
+            }
+        }
         if(isAnimating)
         {
             millcount++;
@@ -162,6 +169,10 @@ public class GameChallengeScreen extends  Screen
 
                         //run AI
                         //runAI();
+                    } else if(inBounds(event,game.getGraphics().getWidth() - escapeButton.getWidth(),0,escapeButton.getWidth(),escapeButton.getHeight()))
+                    {
+                        outstandingBattles--;
+                        game.setScreen(new GameScreen(game));
                     }
                 }
             }

@@ -88,6 +88,9 @@ public class GameResultScreen extends Screen {
         if(isWalking)
         {
             walkTime = walkTime - deltaTime;
+            if(walkTime<= 0){
+                isWalking = false;
+            }
         }
 
         List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
@@ -126,10 +129,10 @@ public class GameResultScreen extends Screen {
         }
         else
         {
-            g.drawPixmap(victoryTitle,g.getWidth()-victoryTitle.getWidth()/2,g.getHeight()/2);
-            g.drawPixmap(victoryText,g.getWidth()-victoryTitle.getWidth()-victoryText.getWidth()/2,g.getHeight()/2);
-            g.drawPixmap(petRewardPixmap,g.getWidth()-victoryTitle.getWidth()-victoryText.getWidth()-petRewardPixmap.getWidth()/2,g.getHeight()/2);
-            drawText(g, moneyString,g.getWidth()-victoryTitle.getWidth()-victoryText.getWidth()-petRewardPixmap.getWidth()-numbers2.getWidth()/2,g.getHeight()/2,numbers2);
+            g.drawPixmap(victoryTitle,g.getWidth()/2+250,g.getHeight()/2-victoryTitle.getHeight()/2);
+            g.drawPixmap(victoryText,g.getWidth()-victoryTitle.getWidth()-victoryText.getWidth()/2-250,g.getHeight()/2-victoryText.getHeight()/2);
+            g.drawPixmap(petRewardPixmap,g.getWidth()-victoryTitle.getWidth()-victoryText.getWidth()-petRewardPixmap.getWidth()/2-250,g.getHeight()/2-petReward.getPixmap().getHeight()/2);
+            drawText(g, moneyString,g.getWidth()-victoryTitle.getWidth()-victoryText.getWidth()-petRewardPixmap.getWidth()-numbers2.getWidth()/2,g.getHeight()/2-numbers2.getHeight()/2,numbers2);
         }
 
         drawText(g, score, g.getWidth() / 2 +350, 0,numbers);
