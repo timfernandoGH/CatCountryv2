@@ -77,7 +77,7 @@ public class GameScreen extends Screen {
         //Markers Pixmap
         markerUp = g.newPixmap("Marker.png", Graphics.PixmapFormat.ARGB4444);
         markerDown = g.newPixmap("DarkerMarker.png", Graphics.PixmapFormat.ARGB4444);
-
+        battlesString = "" +outstandingBattles;
         marker1 = new Marker(markerUp,true,0,0);
         marker2 = new Marker(markerUp,false,0,0);
         towns[0] = marker1;
@@ -116,6 +116,7 @@ public class GameScreen extends Screen {
             {
                 isWalking = false;
                 outstandingBattles = 3;
+                battlesString = "" + outstandingBattles;
                 isBattleReady = true;
             }
 
@@ -214,7 +215,7 @@ public class GameScreen extends Screen {
         g.drawPixmap(evolveButton,centerXPos -350 - evolveButton.getWidth()/2,centerYPos-evolveButton.getHeight()/2 -450);
 
         drawText(g, score, g.getWidth() / 2 +350, 0,numbers);
-        drawText(g,battlesString,centerXPos+350 - numberBattles.getWidth()/2,centerYPos-numberBattles.getHeight()/2,numberBattles);
+        drawText(g,battlesString,centerXPos+350 - numberBattles.getWidth()/2,centerYPos-numberBattles.getHeight()/2+challButton.getHeight(),numberBattles);
     }
 
     public void drawText(Graphics g, String line, int x, int y,Pixmap p){
