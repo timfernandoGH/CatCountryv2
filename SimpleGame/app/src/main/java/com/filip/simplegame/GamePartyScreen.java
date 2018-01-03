@@ -19,10 +19,15 @@ public class GamePartyScreen extends Screen {
     private static Pixmap healButton;
     private static Pixmap background;
     private static Pixmap back;
+    private static Pixmap continueButton;
+
+    public static boolean cont = false;
 
     private String score;
     private int centerXPos;
     private int centerYPos;
+    private int contXPos;
+    private int contYPos;
 
     private int posY = 100;
     public GamePartyScreen(Game game)
@@ -31,8 +36,12 @@ public class GamePartyScreen extends Screen {
         Graphics g = game.getGraphics();
         background = g.newPixmap("background.png",Graphics.PixmapFormat.RGB565);
         back = g.newPixmap("BackButton.png", Graphics.PixmapFormat.ARGB4444);
+        continueButton = g.newPixmap("ContinueButton.png", Graphics.PixmapFormat.ARGB4444);
         centerXPos = g.getWidth() /2;
         centerYPos = g.getHeight() /2;
+
+        contXPos = continueButton.getWidth();
+        contYPos = centerYPos - continueButton.getHeight() / 2 - 250;
     }
     public void update(float deltaTime) {
         List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
@@ -53,6 +62,17 @@ public class GamePartyScreen extends Screen {
                 game.setScreen(new GameScreen(game));
                 return;
             }
+            if(cont){
+                if(inBounds(event, contXPos, contYPos, continueButton.getWidth(), continueButton.getHeight())){
+                    if(mainPet.getHp() <= 0){
+                        return;
+                    } else {
+                        GameChallengeScreen.animate = true;
+                        game.setScreen(new GameChallengeScreen(game));
+                        return;
+                    }
+                }
+            }
         }
     }
 
@@ -69,6 +89,9 @@ public class GamePartyScreen extends Screen {
 
         int pY = posY;
         g.drawPixmap(background,0,0);
+        if(cont){
+            g.drawPixmap(continueButton, contXPos, contYPos);
+        }
         g.drawPixmap(mainPet.getPixmap(),g.getWidth()/2 + 200,g.getHeight()-mainPet.getPixmap().getWidth() - 50);
         for(int i = 0; i < totalOwnedPets; i++)
         {

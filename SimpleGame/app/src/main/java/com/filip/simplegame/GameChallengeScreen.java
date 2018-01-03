@@ -194,12 +194,14 @@ public class GameChallengeScreen extends  Screen
         if(victory)
         {
             animate = false;
+            GamePartyScreen.cont = false;
             g.drawPixmap(victoryImg,centerXPos-victoryImg.getWidth()/2,centerYPos-victoryImg.getHeight()/2);
         }
 
         else if(defeat)
         {
             animate = false;
+            GamePartyScreen.cont = true;
             g.drawPixmap(defeatImg, centerXPos-defeatImg.getWidth()/2, centerYPos-defeatImg.getHeight()/2);
         }
     }
